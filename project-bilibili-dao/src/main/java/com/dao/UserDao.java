@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+import java.util.Set;
+
 @Mapper
 public interface UserDao {
 
@@ -26,4 +29,6 @@ public interface UserDao {
     User getUserByPhoneOrEmail(String phone, String email);
 
     String getRefreshTokenByUserId(Long userId);
+
+    List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList);
 }
