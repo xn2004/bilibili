@@ -138,5 +138,9 @@ public class UserService {
     public String getRefreshTokenByUserId(Long userId) {
         return userDao.getRefreshTokenByUserId(userId);
     }
+
+    public User getUserById(Long followingId) {
+        return userDao.getUserById(followingId);
+    }
 }
 
