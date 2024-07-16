@@ -33,5 +33,5 @@ public class UserInfo {
 //    @Field(type = FieldType.Date)
     private Date updateTime;
 
-//    private Boolean followed;
+    private Boolean followed;
 }

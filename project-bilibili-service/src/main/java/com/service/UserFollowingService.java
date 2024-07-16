@@ -87,6 +87,34 @@ public class UserFollowingService {
         }
         return result;
     }
+    // 第一步：获取当前用户的粉丝列表
+    // 第二步：根据粉丝的用户id查询基本信息
+    // 第三步：查询当前用户是否已经关注该粉丝
+    public List<UserFollowing> getUserFans(Long userId) {
+        List<UserFollowing> fanList = userFollowingDao.getUserFans(userId);
+        Set<Long> fanIdSet = fanList.stream().map(UserFollowing::getUserId).collect(Collectors.toSet());
+        List<UserInfo> userInfoList = new ArrayList<>();
+        if(fanIdSet.size() > 0){
+            userInfoList = userService.getUserInfoByUserIds(fanIdSet);
+        }
+        List<UserFollowing> followingList = userFollowingDao.getUserFollowings(userId);
+        //是否被关注的初始化
+        //粉丝用户信息新的赋值
+        for(UserFollowing fan : fanList){
+            for(UserInfo userInfo : userInfoList){
+                if(fan.getUserId().equals(userInfo.getUserId())){
+                    userInfo.setFollowed(false);
+                    fan.setUserInfo(userInfo);
+                }
+            }
+            for(UserFollowing following : followingList){
+                if(following.getFollowingId().equals(fan.getUserId())){
+                    fan.getUserInfo().setFollowed(true);//互相关注
+                }
+            }
+        }
+        return fanList;
+    }
 }
 
 
